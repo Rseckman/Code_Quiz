@@ -1,5 +1,5 @@
 var startButton = document.querySelector("#start-btn");
-var questionContainerElement = document.querySelector("#question-container");
+var questionContainerEl = document.querySelector("#question-container");
 var questionEl = document.querySelector("#question");
 var answerButtonsEl = document.querySelector("#answer-buttons");
 var answer1 = document.querySelector("#a1");
@@ -13,7 +13,7 @@ var secondsLeft = 100;
 var score = 0;
 var currentQuestionIndex; 
 
-scoreboard.textContent = "Score: " + score;
+
 
 startButton.addEventListener("click", startGame);
 
@@ -27,7 +27,7 @@ function setTime() {
       sendMessage();
     }
   }, 1000);
-}
+};
 
 function startGame() {
   answerButtonsEl.style.display = "block";
@@ -36,20 +36,22 @@ function startGame() {
   setTime();
   currentQuestionIndex = 0;
   setQuestion();
-}
+};
 
-function setQuestion() {
-       
+
+function setQuestion() {  
   if (currentQuestionIndex >= questions.length) {
     sendMessage();
     return;
   }
+
+  scoreboard.textContent = "Score: " + score;
+
   var currentQuestion = questions[currentQuestionIndex];
   questionEl.textContent = currentQuestion.question;
   console.log(currentQuestion);
 
-  answer1.textContent = currentQuestion.answers[0].a1;
-  answer1.addEventListener("click", function () {
+  function button1Logic() {
     console.log(currentQuestion.answers[0].correct);
     if (currentQuestion.answers[0].correct) {
       score++;
@@ -58,10 +60,21 @@ function setQuestion() {
       secondsLeft -= 10;
       feedback.textContent = "Wrong";
     }
+    
+
+    answer1.removeEventListener('click', button1Logic);
+    answer2.removeEventListener('click', button2Logic);
+    answer3.removeEventListener('click', button3Logic);
+    answer4.removeEventListener('click', button4Logic);
+
     setQuestion();
-  });
-  answer2.textContent = currentQuestion.answers[1].a2;
-  answer2.addEventListener("click", function () {
+  }
+
+  answer1.textContent = currentQuestion.answers[0].a1;
+  answer1.addEventListener("click", button1Logic);
+
+
+  function button2Logic() {
     console.log(currentQuestion.answers[1].correct);
     if (currentQuestion.answers[1].correct) {
       score++;
@@ -70,10 +83,21 @@ function setQuestion() {
       secondsLeft -= 10;
       feedback.textContent = "Wrong";
     }
+    
+
+    answer1.removeEventListener('click', button1Logic);
+    answer2.removeEventListener('click', button2Logic);
+    answer3.removeEventListener('click', button3Logic);
+    answer4.removeEventListener('click', button4Logic);
+
     setQuestion();
-  });
-  answer3.textContent = currentQuestion.answers[2].a3;
-  answer3.addEventListener("click", function () {
+  }
+
+  answer2.textContent = currentQuestion.answers[1].a2;
+  answer2.addEventListener("click", button2Logic);
+
+
+  function button3Logic() {
     console.log(currentQuestion.answers[2].correct);
     if (currentQuestion.answers[2].correct) {
       score++;
@@ -82,10 +106,20 @@ function setQuestion() {
       secondsLeft -= 10;
       feedback.textContent = "Wrong";
     }
+    
+
+    answer1.removeEventListener('click', button1Logic);
+    answer2.removeEventListener('click', button2Logic);
+    answer3.removeEventListener('click', button3Logic);
+    answer4.removeEventListener('click', button4Logic);
+
     setQuestion();
-  });
-  answer4.textContent = currentQuestion.answers[3].a4;
-  answer4.addEventListener("click", function () {
+  }
+
+  answer3.textContent = currentQuestion.answers[2].a3;
+  answer3.addEventListener("click", button3Logic);
+
+  function button4Logic() {
     console.log(currentQuestion.answers[3].correct);
     if (currentQuestion.answers[3].correct) {
       score++;
@@ -94,15 +128,57 @@ function setQuestion() {
       secondsLeft -= 10;
       feedback.textContent = "Wrong";
     }
+    
+    answer1.removeEventListener('click', button1Logic);
+    answer2.removeEventListener('click', button2Logic);
+    answer3.removeEventListener('click', button3Logic);
+    answer4.removeEventListener('click', button4Logic);
+
     setQuestion();
-  });
+  }
   
+  answer4.textContent = currentQuestion.answers[3].a4;
+  answer4.addEventListener("click", button4Logic);
+  
+  console.log(currentQuestionIndex)
   currentQuestionIndex++;
+};
+
+
+
+function sendMessage() {
+  var newEl = document.createElement("h2")
+  answerButtonsEl.remove()
+  questionEl.style.color = "Orange"
+  questionEl.textContent="You have completed the quiz!  Submit your score to our leaderboard!";
+  newEl.textContent= "You scored a: " + score
+  questionContainerEl.appendChild(newEl);
+  feedback.remove()
 }
+    
 
-function selectAnswer() {}
-
-function sendMessage() {}
+/**
+ * mainContentEl
+ *    answerButtonsEl
+ *      answer1
+ *      answer2
+ *      answer3
+ *      answer4
+ */
+// assign a variable to main content area -- mainContentEl
+// delete answerButtonEl
+/**
+ * mainContentEl
+ */
+// make a new element with newElement = document.createElement('div');
+/**
+ * mainContentEl
+ *    newContentEl
+ *      newContentChild1El
+ *      newContentChild2El
+ */
+// newElement.textContent = '
+// mainContentEl.addChildElement(newElement);
 
 
 var questions = [
@@ -125,15 +201,6 @@ var questions = [
     ],
   },
   {
-    question: "Inside which HTML element do we put the JavaScript?",
-    answers: [
-      { a1: "<js>", correct: false },
-      { a2: "<scripting>", correct: false },
-      { a3: "<script>", correct: true },
-      { a4: "<javascript>", correct: false },
-    ],
-  },
-  {
     question: "How do you write 'Hello World' in an alert box?",
     answers: [
       { a1: "msgBox('Hello World')", correct: false },
@@ -149,6 +216,15 @@ var questions = [
       { a2: "if (i==5)", correct: true },
       { a3: "if i = 5 then", correct: false },
       { a4: "if i == 5 then", correct: false },
+    ],
+  },
+  {
+    question: "Inside which HTML element do we put the JavaScript?",
+    answers: [
+      { a1: "<js>", correct: false },
+      { a2: "<scripting>", correct: false },
+      { a3: "<script>", correct: true },
+      { a4: "<javascript>", correct: false },
     ],
   },
 ];
