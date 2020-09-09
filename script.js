@@ -13,7 +13,14 @@ var secondsLeft = 100;
 var score = 0;
 var currentQuestionIndex; 
 var timerInterval;
-var finalScore = parseInt(score + secondsLeft);
+var leaderBoardbtn = document.querySelector("#leader-btn");
+var submitButton = document.querySelector("#submit-btn");
+var storedScores = document.createElement("p");
+var lastPlayer = localStorage.getItem("player");
+var lastScore = localStorage.getItem("finalScore");
+
+
+leaderBoardbtn.addEventListener("click", leaderboardButtonLogic);
 
 startButton.addEventListener("click", startGame);
 
@@ -30,6 +37,8 @@ function setTime() {
 };
 
 function startGame() {
+  storedScores.textContent = ""
+  leaderBoardbtn.style.display = "none"
   answerButtonsEl.style.display = "block";
   startButton.style.display = "none";
   console.log("GAME ON");
@@ -145,26 +154,38 @@ function setQuestion() {
 };
 
 function sendMessage() {
-  
+  var finalScore = parseInt(score + secondsLeft);
   var newEl = document.createElement("h2");
-  var submitButton = document.createElement("button");
-  submitButton.textContent = "Submit";
-  submitButton.setAttribute("id", "submit");
-  answerButtonsEl.remove()
-  scoreboard.remove();
+  submitButton.style.visibility = "visible";
+  answerButtonsEl.style.display = "none";
+  scoreboard.style.display = "none";
   questionEl.style.color = "Orange"
   questionEl.textContent="You have completed the quiz!  Submit your score to our leaderboard!";
   newEl.textContent= "You scored a: " + finalScore;
   clearInterval(timerInterval);
   questionContainerEl.appendChild(newEl);
-  questionContainerEl.appendChild(submitButton);
   feedback.remove()
+  localStorage.setItem("finalScore", finalScore);
   submitButton.addEventListener("click", submitButtonLogic);
 }
 
 
 function submitButtonLogic(){
-  console.log(score = secondsLeft)
+  var player = prompt("enter initials");
+  localStorage.setItem("player", player);
+  questionEl.style.display = "none";
+  leaderBoardbtn.style.display = "block";
+
+}
+
+
+function leaderboardButtonLogic(){
+  var leaderEl = document.createElement("h3");
+  questionContainerEl.appendChild(leaderEl);
+  storedScores.textContent = lastPlayer + ": " + lastScore;
+  questionContainerEl.appendChild(storedScores);
+  submitButton.style.visibility = "hidden";
+  
 }
 
 var questions = [
@@ -211,6 +232,33 @@ var questions = [
       { a2: "<scripting>", correct: false },
       { a3: "<script>", correct: true },
       { a4: "<javascript>", correct: false },
+    ],
+  },
+  {
+    question: "How does a FOR loop start?",
+    answers: [
+      { a1: "for (i = 0; i <= 5)", correct: false },
+      { a2: "for (i = 0; i <= 5; i++)", correct: true },
+      { a3: "for i = 1 to 5", correct: false },
+      { a4: "for (i <= 5; i++)", correct: false },
+    ],
+  },
+  {
+    question: "Which operator is used to assign a value to a variable?",
+    answers: [
+      { a1: "*", correct: false },
+      { a2: "-", correct: false },
+      { a3: "=", correct: true },
+      { a4: "x", correct: false },
+    ],
+  },
+  {
+    question: "How to write an IF statement for executing some code if 'i' is NOT equal to 5?",
+    answers: [
+      { a1: "if (i !=5)", correct: true },
+      { a2: "if (i <> 5)", correct: false },
+      { a3: "if i =! 5 then", correct: false },
+      { a4: "if i <> 5", correct: false },
     ],
   },
 ];

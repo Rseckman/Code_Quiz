@@ -21,8 +21,16 @@ h1 {
 #question {
     font-weight: bold;
 }
+#start-btn {
+    margin: 10px;
+}                 
 
-#submit {
-    width: 100px;
-    margin: 10px;                  
+
+#leader-btn {
+    margin: 10px;
+}
+
+#submit-btn {
+    margin: 10px;
+    visibility: hidden;
 }
