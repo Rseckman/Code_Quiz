@@ -12,13 +12,13 @@ var scoreboard = document.querySelector("#score");
 var secondsLeft = 100;
 var score = 0;
 var currentQuestionIndex; 
-
-
+var timerInterval;
+var finalScore = parseInt(score + secondsLeft);
 
 startButton.addEventListener("click", startGame);
 
 function setTime() {
-  var timerInterval = setInterval(function () {
+    timerInterval = setInterval(function () {
     secondsLeft--;
     timer.textContent = "Time: " + secondsLeft;
 
@@ -144,42 +144,28 @@ function setQuestion() {
   currentQuestionIndex++;
 };
 
-
-
 function sendMessage() {
-  var newEl = document.createElement("h2")
+  
+  var newEl = document.createElement("h2");
+  var submitButton = document.createElement("button");
+  submitButton.textContent = "Submit";
+  submitButton.setAttribute("id", "submit");
   answerButtonsEl.remove()
+  scoreboard.remove();
   questionEl.style.color = "Orange"
   questionEl.textContent="You have completed the quiz!  Submit your score to our leaderboard!";
-  newEl.textContent= "You scored a: " + score
+  newEl.textContent= "You scored a: " + finalScore;
+  clearInterval(timerInterval);
   questionContainerEl.appendChild(newEl);
+  questionContainerEl.appendChild(submitButton);
   feedback.remove()
+  submitButton.addEventListener("click", submitButtonLogic);
 }
-    
 
-/**
- * mainContentEl
- *    answerButtonsEl
- *      answer1
- *      answer2
- *      answer3
- *      answer4
- */
-// assign a variable to main content area -- mainContentEl
-// delete answerButtonEl
-/**
- * mainContentEl
- */
-// make a new element with newElement = document.createElement('div');
-/**
- * mainContentEl
- *    newContentEl
- *      newContentChild1El
- *      newContentChild2El
- */
-// newElement.textContent = '
-// mainContentEl.addChildElement(newElement);
 
+function submitButtonLogic(){
+  console.log(score = secondsLeft)
+}
 
 var questions = [
   {
