@@ -14,3 +14,5 @@ To make this assignment work through Javascript I had to set multiple functions 
 My questions and answer were set through an array, that worked through intervals of that array, where the correct answer was identified in the array.  Using if statements I declared the conditions based on the users selection.
 
 This assignement was very challenging, feel free to look through my process and try it out for yourself.
+
+https://rseckman.github.io/Code_Quiz/
